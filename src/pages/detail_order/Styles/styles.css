@@ -1,0 +1,42 @@
+.doccomponent{
+    background-color: #545454;
+    display: flex;
+    flex-direction: column;
+}
+
+#drop-template{
+    width: 100%;
+    margin: 10px 0px;
+}
+
+input{
+    background: transparent;
+    border-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+input:focus{
+    border-bottom: 1px solid dodgerblue;
+    background: #474747;
+}
+input:active{
+    border-bottom: 1px solid dodgerblue;
+    background: #474747;
+
+}
+
+.inputdoc{
+    background-color: #404040;
+    border: 1px solid #81d8d0;
+    color: white;
+}
+.inputdoc:focus{
+    background: #404040;
+    color: white;
+}
+.inputdoc:active{
+    background: #404040;
+    color: white;
+}
