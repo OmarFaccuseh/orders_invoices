@@ -15,7 +15,9 @@ root.render(
       <BrowserRouter>
         <CarritoProvider style={{ backgroundColor: 'white' }}>
           <Routes>
-            <Route index element={<ListOrders />}         /> 
+            <Route index element={<ListOrders />}  />
+            <Route path='orders_invoices' element={<ListOrders/>} />
+ 
             <Route path='orders/:order_id' element={<OrderDetail />} />
             <Route path='facts' element={<Facts />} />
           </Routes>
