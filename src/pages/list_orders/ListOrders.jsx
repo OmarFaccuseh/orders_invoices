@@ -36,7 +36,7 @@ export default function ListOrders(){
 			</div>		
 			<div className="d-flex col-12 m-3" >
 				<h1 className="d-flex col-12 justify-content-center">
-					ORDERS
+					ORDERs
 				</h1>
 				<div className="d-flex justify-content-end align-items-end flex-column col-3 position-absolute" 
 				style={{'width':'100%', 'left':'0', 'rigth':'0', 'paddingRight':'120px' }}>
