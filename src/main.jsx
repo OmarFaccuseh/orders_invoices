@@ -13,7 +13,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   //<React.StrictMode>
       <BrowserRouter basename={"orders_invoices"}>
-        <CarritoProvider style={{ backgroundColor: 'white' }}>
+        <CarritoProvider style={{ backgroundColor: 'red' }}>
           <Routes >
             <Route index element={<ListOrders />}  />
             <Route path='orders/:order_id' element={<OrderDetail />} />
