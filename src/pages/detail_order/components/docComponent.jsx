@@ -6,7 +6,7 @@ import '../Styles/styles.css'  // creo que incecesario, se importe en el compone
 
 export default function DocComponent(){
 
-  const { cartItems, folio,  nombre, addNewItem, changeCantidadItem,  changePrecioItem, 
+  const { cartItems, folio,  nombre, notas, addNewItem, changeArticuloItem, changeCantidadItem,  changePrecioItem, 
           removeFromCart, total, settFecha} = useShoppingCart();
 
   useEffect(()=>{
@@ -34,24 +34,28 @@ export default function DocComponent(){
     axios
     .get("http://127.0.0.1:8000/api/productos/", {mode: "no-cors"})
     .then((res) => {
-      this.setData(res.data)
+      //this.setData(res.data)
       console.log("RESPONSE PRODUCTOS ", res)
     })
     .catch((err) => console.log(err))
   }
 
   function addProductRows() {
-    const defaultId = 3;
-    const precio = "" // data.find(p => p.id == defaultId).precio
+    const defaultId = Math.floor(Math.random() * 1000);
+    const precio = 0 // data.find(p => p.id == defaultId).precio
+    const cant = 0
+    const sub = 0
     const nombre = "" // data.find(p => p.id == defaultId).nombre
-    addNewItem(defaultId, precio, nombre);
+    addNewItem(defaultId, nombre, precio, cant, sub);
   }
 
   function deleteTableRows(index)  {
     removeFromCart(index)
   }
 
-  function onChangeArticuloItem(index, evnt) {
+  function onChangeArticuloItem(codigo, evnt) {         
+    const { value } = evnt.target;
+    changeArticuloItem(codigo, value, 0,0);
     /* FOR PREDEFINED PRODUCTS
     const { value } = evnt.target;  //id
     const precio = data.find(p => p.id == value).precio
@@ -107,23 +111,23 @@ export default function DocComponent(){
         <tbody>
         {
           cartItems.map((item, index)=>{
-          const {id, nombre, cantidad, precio, subtotal} = item;
+          const {codigo, nombre, cantidad, precio, subtotal} = item;
           return(
-            <tr>
-              <td style={{"width": "50%"}}>
-                <input name="articulo" type="text" defaultValue={nombre} onChange={(evnt)=>(onChangeArticuloItem(index, evnt))} style={{"width": "100%"}} />                  
+            <tr key={codigo}>
+              <td style={{"width": "50%"}} scope="row">
+                <input name="articulo" type="text" defaultValue={nombre} onChange={e=>onChangeArticuloItem(codigo, e)} style={{"width": "100%"}} />                  
               </td>
-              <td style={{"width": "5%"}}>
-                <input name="cantidad" type="text" defaultValue={cantidad} onChange={(evnt)=>(onChangeCantidadItem(index, evnt))} style={{"width": "100%"}} />
+              <td style={{"width": "5%"}} scope="row"> 
+                <input name="cantidad" type="text" defaultValue={cantidad} onChange={e=>onChangeCantidadItem(index, e)} style={{"width": "100%"}} />
               </td>
-              <td style={{"width": "20%"}}> 
-                <input name="precioU" type="text" defaultValue={precio} onChange={(evnt)=>(onChangePrecioItem(index, evnt))} style={{"width": "100%"}}/>
+              <td style={{"width": "20%"}} scope="row"> 
+                <input name="precioU" type="text" defaultValue={precio} onChange={e=>(onChangePrecioItem(index, e))} style={{"width": "100%"}}/>
               </td>
-              <td style={{"width": "20%"}}>
+              <td style={{"width": "20%"}} scope="row">
                 <input name="subtotal" type="text" defaultValue={subtotal} style={{"width": "100%"}}/>
               </td>
-              <td style={{"width": "5%"}}>
-                <button className="btn btn-outline-danger" onClick={()=>(deleteTableRows(index))} style={{"width": "100%"}}> x </button>
+              <td style={{"width": "5%"}} scope="row">
+                <button className="btn btn-outline-danger" onClick={()=>deleteTableRows(index)} style={{"width": "100%"}}> x </button>
               </td>
             </tr>
           )
@@ -140,7 +144,7 @@ export default function DocComponent(){
       <br></br>
 
       <label for="notasInput" class="form-label"> Notas </label>
-      <input type="text" class="form-control inputdoc" id="notasInput"/>
+      <input type="text" class="form-control inputdoc" defaultValue={notas} id="notasInput"/>
     </div>  
     </React.Fragment>
   );

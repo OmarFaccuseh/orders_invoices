@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: '100%',
+    height: '40px',
     display: 'flex',
     borderTop: '1px solid #EEE',
     paddingTop: 5,
@@ -22,6 +23,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     width: '100%',
+    height: '40px',
+
     display: 'flex',
     borderTop: '1px solid #EEE',
     paddingLeft: 5, 

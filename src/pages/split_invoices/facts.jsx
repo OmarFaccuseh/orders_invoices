@@ -184,7 +184,8 @@ export default function MakeFacts(){
         var parser = new DOMParser();
         var doc = parser.parseFromString(readXml, "application/xml");
 
-        const ele_customer = doc.getElementsByTagName("cfdi:Emisor")[0]  // htmlcollection list
+        const ele_emisor = doc.getElementsByTagName("cfdi:Emisor")[0]  // htmlcollection list
+        const ele_receptor = doc.getElementsByTagName("cfdi:Receptor")[0]  // htmlcollection list
         const ele_items = doc.getElementsByTagName("cfdi:Concepto")        // handled like array
         var ele_taxes = doc.getElementsByTagName('cfdi:Impuestos');
         var taxes_translate = 0;
@@ -192,11 +193,13 @@ export default function MakeFacts(){
             taxes_translate = Number(ele_taxes[i].getAttribute('TotalImpuestosTrasladados')); 
             if (taxes_translate > 0) {break;}
         }
-        const attr_rfc  = ele_customer.getAttribute("Rfc")
+        const attr_rfc_emisor = ele_emisor.getAttribute("Rfc")
+        const attr_rfc_receptor  = ele_receptor.getAttribute("Rfc")
         const attr_name = ele_customer.getAttribute("Nombre")
         const sum_subtotal = Array.from(ele_items).reduce((prev, curr) => prev + Number(curr.getAttribute("Importe")), 0);
         
-        reduce_facts.push({"Rfc" : attr_rfc, 
+        reduce_facts.push({"Rfc_emisor" : attr_rfc_emisor,
+                           "Rfc_receptor": attr_rfc_receptor, 
                            "razon": attr_name, 
                            "subtotal": sum_subtotal, 
                            "iva": taxes_translate, 
@@ -218,10 +221,6 @@ export default function MakeFacts(){
     function filterFacts(){
       
       groups.map((group, index,) => {
-        
-        console.log("ALL GROUPs :  " + JSON.stringify(groups))
-        console.log("IN GROUP :  " + group.name)
-        console.log("REDUCE FACTS :  " + JSON.stringify(reduce_facts))
 
         function satisfyCriteria(fact) {   // Need satisfy all criterion
           
@@ -231,8 +230,6 @@ export default function MakeFacts(){
             const field_criterion =  isNaN(group.criteria[i].field) ? group.criteria[i].field : Number(group.criteria[i].field )    
             const operator_criterion =  group.criteria[i].operator 
             const value_criterion =  isNaN(group.criteria[i].value) ? group.criteria[i].value : Number(group.criteria[i].value)  
-
-            //console.log("CRITERIoN value : " + i + "  " + JSON.stringify(group.criteria[i]))
 
             if ( isNaN(value_criterion) && operator_criterion != "=" ){
               console.log("Los operadores '<' y '>' solo se pueden validar si el criterio es numero, si no, incuplira el criterio")

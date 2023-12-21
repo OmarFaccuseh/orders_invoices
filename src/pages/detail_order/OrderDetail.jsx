@@ -38,7 +38,7 @@ export default function OrderDetail() {
     settFolio(order.order_id);
     settNombre(order.customer);
     settNotas(order.notas)
-    addNewItem(4, order.unit_price, order.qty, order.subtotal, order.product);
+    addNewItem(4, order.product, order.unit_price, order.qty, order.subtotal);
     changeCantidadItem(order.qty) // not worked
   }
 
@@ -88,10 +88,10 @@ export default function OrderDetail() {
 
         </div>
         <div class="d-flex justify-content-center mb-3">
-          <button className="btn btn-primary m-2" onClick={(e) => createNote(e, 'idd:1')}>
+          <button className="btn btn-primary m-2" onClick={ e => createNote(e, 'idd:1')}>
             Generate PDF
           </button>
-          <button className="btn btn-primary m-2" onClick={(e) => printNote(e, 'idd:2')}>
+          <button className="btn btn-primary m-2" onClick={ e => printNote(e, 'idd:2')}>
             IMPRIMIR
           </button>
         </div>

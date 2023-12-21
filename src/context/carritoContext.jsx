@@ -51,7 +51,7 @@ export default function CarritoProvider ({children}){
     setNotas(notas)
   }
 
-  function addNewItem(id, price, qty, subtotal, nombre){
+  function addNewItem(id, nombre, price, qty, subtotal){
     setCartItems(currItems => {
       // slice copia el arreglo, splice borra desde indice 0 hasta 0 (nada en este caso), y agrega lo del 3er arg. 
       let newArray = currItems.slice()
@@ -60,13 +60,13 @@ export default function CarritoProvider ({children}){
     })
   }
 
-  function changeArticuloItem(ind, codigo, price, nombre){
+  function changeArticuloItem(cod, nombre, qty, price){
     setCartItems( currItems => {
-      return currItems.map((item, index) => {
-        if (index === parseInt(ind)){
+      return currItems.map(item => {
+        if (item.codigo === parseInt(cod)){
           //const precio = products.find(i => i.codigo == codigo).precio;
-          return {...item, codigo: codigo, cantidad: 1,
-            precio: price, subtotal: price, nombre: nombre}
+          return {...item, codigo: cod || item.codigo, cantidad: qty || item.cantidad,
+            precio: price || item.precio, nombre: nombre}
         }
         else {
             return item;

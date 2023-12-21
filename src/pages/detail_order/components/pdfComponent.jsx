@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   viewer: {
-    width: window.innerWidth, //the pdf viewer will take up all of the width and height
+    width:'100%', //the pdf viewer will take up all of the width and height
     height: window.innerHeight,
   },
   folio: {
@@ -148,11 +148,11 @@ export const BasicDocument= forwardRef((props, pdfComp) => {
               <Page size="A4" style={styles.page}>
                 <View style={styles.log_rfc}>
                   <div style={{flexWrap:'wrap', alignItems: "center", marginLeft: 'auto',  marginRight: 'auto',}}>
-                    <Text style={{marginTop:'20', marginBottom:'12', fontWeight: 'bold', fontFamily: 'Roboto' }} bold='true'><i>PARA CUALQUIER DUDA O INCONVENIENTE CON TU COMPRA ESTOY DISPONIBLE</i></Text>
+                    <Text style={{marginTop:'20', marginBottom:'12', fontWeight: 'bold', fontFamily: 'Roboto' }} bold='true'>PARA CUALQUIER DUDA O INCONVENIENTE CON TU COMPRA ESTOY DISPONIBLE</Text>
                     <Text style={{marginBottom:'8'}}> 8712328597    /    omar_fs.07@hotmail.com </Text>
                   </div>
                   <View style={styles.img_conteniner}>
-                      <Image src={'/images/logo.jpg'} alt='imagenpng' style='styles.logo'/>
+                      <Image src={'/orders_invoices/images/logo.jpg'} alt='imagenpng' style='styles.logo'/>
                   </View>
                     <div style={styles.rfc}>
                       <Text style={styles.lineRfc}>Herramientas y Accesorios Toto-Tools</Text>
@@ -176,12 +176,12 @@ export const BasicDocument= forwardRef((props, pdfComp) => {
                   </div>
                 </View>
                 <Table items={cartItems} style={styles.table}/>
-                <Text style={{marginLeft: 'auto', marginRight: 60, fontWeight: 'bold', fontFamily: 'Roboto', fontSize: 14,}}> Total : $ {total} </Text>
+                <Text style={{marginLeft: 'auto', marginRight: 50, fontWeight: 'bold', fontFamily: 'Roboto', fontSize: 14,}}> Total : $ {total} </Text>
                 <div style={{margin: 20, fontSize: 10}}>
                   <Text style={styles.notas}> Notas: {notas} </Text>
                 </div>
                 <div style={styles.shadow}>
-                  <Text style={{color: '#5f5f5f'}}>En caso de requerir Factura por favor envíenos sus datos (nombre o razón social, RFC, uso CFDI, forma de pago) a través de su compra en Mercadolibre, o al correo: omar_fs.07@hotmail.com, o whatsapp: 8714147279.
+                  <Text style={{color: '#5f5f5f'}}>En caso de requerir Factura por favor enviar sus datos (Nombre o razón social, RFC, uso CFDI, forma de pago, Regimen fiscal, codigo postal) a través de su compra en Mercadolibre, o al correo: omar_fs.07@hotmail.com, o whatsapp: 8714147279.
                   </Text>
                 </div>
                 <Text style={{marginLeft:'auto', marginRight:'auto', marginTop:'25', marginBottom:'25',
@@ -194,7 +194,7 @@ export const BasicDocument= forwardRef((props, pdfComp) => {
                      <Text style={{fontFamily: 'Roboto', fontSize: 10, color: '#5f5f5f'}}>El proceso de compra es el mismo que en Mercadolibre </Text>
                   </div>
                   <View style={styles.qr_container}>
-                    <Image style={styles.qr} src={'/images/qr_fasutec.jpg'} alt='imagenqr'/>
+                    <Image style={styles.qr} src={'/orders_invoices/images/qr_fasutec.jpg'} alt='imagenqr'/>
                   </View>
                 </View>
               </Page>
