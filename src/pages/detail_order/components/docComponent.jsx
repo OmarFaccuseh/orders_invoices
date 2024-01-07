@@ -11,7 +11,7 @@ export default function DocComponent(){
 
   useEffect(()=>{
     setDate()
-    getData()
+    //getData()
     setDetailOrder() 
   },[])
 
@@ -84,16 +84,16 @@ export default function DocComponent(){
     <div className='doccomponent col-12 d-flex flex-column'>
       <div className="d-flex flex-row justify-content-center align-items-center col-3 mb-3 me-0 ms-auto">
           <label for="folioInput" class=""> Folio </label>
-          <input type="text" defaultValue={folio} class="form-control inputdoc m-2" id="folioInput"/>
+          <input type="text" defaultValue={folio} class="form-control inputdoc m-2" id="folioInput" key={`key:${folio}`}/>
       </div>
       <div class="d-flex mb-3 col-12">
         <div class="d-flex col-8 align-items-center">
           <label for="nombreInput" class="form-label "> Recibe: </label>
-          <input type="text" class="form-control inputdoc mx-2" id="nombreInput" defaultValue={nombre}/>
+          <input type="text" class="form-control inputdoc mx-2" id="nombreInput" defaultValue={nombre} key={`key:${nombre}`}/>
         </div>
         <div class="d-flex col-4 align-items-center">
           <label for="FechaInput" class="form-label ms-3"> Fecha: </label>
-          <input type="date" class="form-control inputdoc mx-2" id="fechaInput" defaultValue={()=>setDate()}/>
+          <input type="date" class="form-control inputdoc mx-2" id="fechaInput" defaultValue={()=>setDate()} key={`key:${()=>setDate()}`}/>
         </div>
       </div>
 

@@ -51,7 +51,8 @@ export default function CarritoProvider ({children}){
     setNotas(notas)
   }
 
-  function addNewItem(id, nombre, price, qty, subtotal){
+  function addNewItem(nombre, price, qty, subtotal){
+    const id = Math.floor(Math.random() * 1000).toString()
     setCartItems(currItems => {
       // slice copia el arreglo, splice borra desde indice 0 hasta 0 (nada en este caso), y agrega lo del 3er arg. 
       let newArray = currItems.slice()

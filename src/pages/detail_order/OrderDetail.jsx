@@ -32,13 +32,14 @@ export default function OrderDetail() {
   }, [])
 
 
+
   function initializeContext(order){
     console.log('ORDER ARRIVE TO INIT CONTEXT: ' +  JSON.stringify(order))
     resetCarrito();
     settFolio(order.order_id);
     settNombre(order.customer);
     settNotas(order.notas)
-    addNewItem(4, order.product, order.unit_price, order.qty, order.subtotal);
+    addNewItem(order.product, order.unit_price, order.qty, order.subtotal);
     changeCantidadItem(order.qty) // not worked
   }
 
