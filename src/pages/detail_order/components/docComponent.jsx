@@ -144,7 +144,7 @@ export default function DocComponent(){
       <br></br>
 
       <label for="notasInput" class="form-label"> Notas </label>
-      <input type="text" class="form-control inputdoc" defaultValue={notas} id="notasInput"/>
+      <input type="text" class="form-control inputdoc" defaultValue={notas} id="notasInput"  key={`key:${notas}`}/>
     </div>  
     </React.Fragment>
   );
