@@ -119,8 +119,8 @@ export default function Table(items){
           <View style={styles.row} key={i}>
             <Text style={styles.row1}> {item.nombre} </Text>
             <Text style={styles.row2}> {item.cantidad} </Text>
-            <Text style={styles.row3}> {'$ ' + item.precio} </Text>
-            <Text style={styles.row4}> {'$ ' + item.subtotal} </Text>
+            <Text style={styles.row3}> {'$ ' + item.precio.toLocaleString('en')} </Text>
+            <Text style={styles.row4}> {'$ ' + item.subtotal.toLocaleString('en')} </Text>
           </View>
         )})
       }

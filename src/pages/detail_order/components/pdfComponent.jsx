@@ -124,6 +124,11 @@ const styles = StyleSheet.create({
 export const BasicDocument= forwardRef((props, pdfComp) => {
   const { cartItems, total, folio, nombre, fecha, notas} = useShoppingCart();
 
+  const only_total = total.toLocaleString('en').split('.')[0]
+  const only_decimal = total.toLocaleString('en').split('.')[1]
+
+  console.log('decciamala :' +  total.toLocaleString('en').split('.'))
+
 
   console.log("ITEMS FROM PDF_DOC", cartItems)
 
@@ -176,7 +181,12 @@ export const BasicDocument= forwardRef((props, pdfComp) => {
                   </div>
                 </View>
                 <Table items={cartItems} style={styles.table}/>
-                <Text style={{marginLeft: 'auto', marginRight: 50, fontWeight: 'bold', fontFamily: 'Roboto', fontSize: 14,}}> Total : $ {total} </Text>
+                <Text style={{marginLeft: 'auto', marginRight: 50, fontWeight: 'bold', fontFamily: 'Roboto', fontSize: 14,}}> Total : $ {only_total + '.' } 
+                { only_decimal ?
+                <Text style={{marginLeft: 'auto', marginRight: 50, marginTop: 0, fontFamily: 'Roboto', fontSize: 10, verticalAlign: 'center'}}>{only_decimal}</Text>
+                  : <></>
+                }
+                </Text>
                 <div style={{margin: 20, fontSize: 10}}>
                   <Text style={styles.notas}> Notas: {notas} </Text>
                 </div>
