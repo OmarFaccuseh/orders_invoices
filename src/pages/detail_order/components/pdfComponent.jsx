@@ -1,13 +1,4 @@
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFViewer,
-  Image,
-  Font,
-} from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, PDFViewer, Image, Font} from "@react-pdf/renderer";
 import React, { forwardRef , Component } from "react";
 import { useShoppingCart } from "../../../context/carritoContext.jsx"
 import Table from "../PDF/TablePdf"
@@ -15,6 +6,109 @@ import RobotoLight from '../../../Styles/Fonts/Roboto-Light.ttf'
 import RobotoMedium from '../../../Styles/Fonts/Roboto-Medium.ttf'
 import RobotoMediumItalic from '../../../Styles/Fonts/Roboto-MediumItalic.ttf'
 import RobotoLightItalic from '../../../Styles/Fonts/Roboto-LightItalic.ttf'
+
+
+
+export const BasicDocument= forwardRef((props, pdfComp) => {
+  const { cartItems, total, folio, nombre, fecha, notas} = useShoppingCart();
+
+  const only_total = total.toLocaleString('en').split('.')[0]
+  const only_first_decimal = total.toLocaleString('en').split('.')[1]
+  const only_decimal =  (only_first_decimal) ? only_first_decimal : '00'
+
+  
+  //function compute_decimal(){
+  //  (only_first_decimal.length == 1 ) ? only_first_decimal+"0" : only_first_decimal
+  
+
+  console.log('only_first_decimal :' +  only_first_decimal)
+
+
+  console.log("ITEMS FROM PDF_DOC", cartItems)
+
+  Font.register({ family: 'Roboto', fonts: [
+     { src: RobotoLight, fontWeight: 400}, // font-style: normal, font-weight: normal
+     { src: RobotoMedium, fontWeight: 700 },
+     { src: RobotoLightItalic, fontStyle: 'italic', fontWeight: 400},
+     { src: RobotoMediumItalic, fontStyle: 'italic', fontWeight: 700},
+    ]});
+
+    return (
+      <div ref={pdfComp}>
+        <PDFViewer style={styles.viewer} >
+          {/* Start of the document*/}
+          <Document 
+                    onLoadSuccess={async (successEvent) => {
+                    // tslint:disable-next-line:await-promise
+                    const data = await successEvent.getData();
+          }}  >
+            {/*render a single page*/}
+
+              <Page size="A4" style={styles.page}>
+                <View style={styles.log_rfc}>
+                  <div style={{flexWrap:'wrap', alignItems: "center", marginLeft: 'auto',  marginRight: 'auto',}}>
+                    <Text style={{marginTop:'20', marginBottom:'12', fontWeight: 'bold', fontFamily: 'Roboto' }} bold='true'>PARA CUALQUIER DUDA O INCONVENIENTE CON TU COMPRA ESTOY DISPONIBLE</Text>
+                    <Text style={{marginBottom:'8'}}> 8712328597    /    omar_fs.07@hotmail.com </Text>
+                  </div>
+                  <View style={styles.img_conteniner}>
+                      <Image src={'/orders_invoices/images/logo.jpg'} alt='imagenpng' style='styles.logo'/>
+                  </View>
+                    <div style={styles.rfc}>
+                      <Text style={styles.lineRfc}>Herramientas y Accesorios Toto-Tools</Text>
+                      <Text style={styles.lineRfc}>RFC: FASJ960709N19</Text>
+                      <Text style={styles.lineRfc}>C. Leona vicario #110 sur.</Text>
+                      <Text style={styles.lineRfc}>Colonia Ejidal. 27446.</Text>
+                      <Text style={styles.lineRfc}>Matamoros, Coahuila. México.</Text>
+                    </div>
+                </View>
+               
+
+                <View style={styles.section}>
+                  <Text style={styles.folio}> Folio: {folio}</Text>
+                  <div style={styles.flex}>
+                    <Text style={styles.nombre}> Recibe: {nombre}</Text>
+                    <Text style={styles.fecha}> Fecha: {fecha}</Text>
+                  </div>
+                  <div > 
+                    <div style={{width: '58%', borderBottom:'1px', borderBottomColor: '#000000', marginLeft:'45'}}></div>
+                    <div style={{width: '21%', borderBottom:'1px', borderBottomColor: '#000000', marginLeft:'auto', marginRight:'5'}}></div>
+                  </div>
+                </View>
+                <Table items={cartItems} style={styles.table}/>
+                <Text style={{marginLeft: 'auto', marginRight: 50, fontWeight: 'bold', fontFamily: 'Roboto', fontSize: 14,}}> Total : $ {only_total + '.' } 
+                <Text style={{marginLeft: 'auto', marginRight: 50, marginTop: 0, fontFamily: 'Roboto', fontSize: 10, verticalAlign: 'center'}}>{only_decimal}</Text>
+                </Text>
+                <div style={{margin: 20, fontSize: 10}}>
+                  <Text style={styles.notas}> Notas: {notas} </Text>
+                </div>
+                <div style={styles.shadow}>
+                  <Text style={{color: '#5f5f5f'}}>En caso de requerir Factura por favor enviar sus datos (Nombre o razón social, RFC, uso CFDI, forma de pago, Regimen fiscal, codigo postal) a través de su compra en Mercadolibre, o al correo: omar_fs.07@hotmail.com, o whatsapp: 8714147279.
+                  </Text>
+                </div>
+                <Text style={{marginLeft:'auto', marginRight:'auto', marginTop:'25', marginBottom:'25',
+                fontFamily: 'Roboto',  fontStyle: 'italic', fontWeight: 'bold'}}>¡ Gracias por su Preferencia !</Text>
+                <View style={styles.ml_shops_qr}>
+                  <div style={styles.ml_shops}>
+                     <Text style={{fontFamily: 'Roboto'}}>¡ Visita nuestro MercadoShops! </Text>
+                     <Text style={{fontFamily: 'Roboto'}}>Ahora puedes acceder a precios más bajos </Text>
+                     <Text style={{fontFamily: 'Roboto', fontWeight: 'bold'}}>fasutec-ml.mercadoshops.com.mx </Text>
+                     <Text style={{fontFamily: 'Roboto', fontSize: 10, color: '#5f5f5f'}}>El proceso de compra es el mismo que en Mercadolibre </Text>
+                  </div>
+                  <View style={styles.qr_container}>
+                    <Image style={styles.qr} src={'/orders_invoices/images/qr_fasutec.jpg'} alt='imagenqr'/>
+                  </View>
+                </View>
+              </Page>
+
+          </Document>
+        </PDFViewer>
+      </div>
+    );
+
+} );
+
+export default BasicDocument;
+
 
 // Create styles
 const styles = StyleSheet.create({
@@ -121,101 +215,7 @@ const styles = StyleSheet.create({
 });
 
 
-export const BasicDocument= forwardRef((props, pdfComp) => {
-  const { cartItems, total, folio, nombre, fecha, notas} = useShoppingCart();
 
-  const only_total = total.toLocaleString('en').split('.')[0]
-  const only_decimal = total.toLocaleString('en').split('.')[1]
-
-  console.log('decciamala :' +  total.toLocaleString('en').split('.'))
-
-
-  console.log("ITEMS FROM PDF_DOC", cartItems)
-
-  Font.register({ family: 'Roboto', fonts: [
-     { src: RobotoLight, fontWeight: 400}, // font-style: normal, font-weight: normal
-     { src: RobotoMedium, fontWeight: 700 },
-     { src: RobotoLightItalic, fontStyle: 'italic', fontWeight: 400},
-     { src: RobotoMediumItalic, fontStyle: 'italic', fontWeight: 700},
-    ]});
-
-    return (
-      <div ref={pdfComp}>
-        <PDFViewer style={styles.viewer} >
-          {/* Start of the document*/}
-          <Document 
-                    onLoadSuccess={async (successEvent) => {
-                    // tslint:disable-next-line:await-promise
-                    const data = await successEvent.getData();
-          }}  >
-            {/*render a single page*/}
-
-              <Page size="A4" style={styles.page}>
-                <View style={styles.log_rfc}>
-                  <div style={{flexWrap:'wrap', alignItems: "center", marginLeft: 'auto',  marginRight: 'auto',}}>
-                    <Text style={{marginTop:'20', marginBottom:'12', fontWeight: 'bold', fontFamily: 'Roboto' }} bold='true'>PARA CUALQUIER DUDA O INCONVENIENTE CON TU COMPRA ESTOY DISPONIBLE</Text>
-                    <Text style={{marginBottom:'8'}}> 8712328597    /    omar_fs.07@hotmail.com </Text>
-                  </div>
-                  <View style={styles.img_conteniner}>
-                      <Image src={'/orders_invoices/images/logo.jpg'} alt='imagenpng' style='styles.logo'/>
-                  </View>
-                    <div style={styles.rfc}>
-                      <Text style={styles.lineRfc}>Herramientas y Accesorios Toto-Tools</Text>
-                      <Text style={styles.lineRfc}>RFC: FASJ960709N19</Text>
-                      <Text style={styles.lineRfc}>C. Leona vicario #110 sur.</Text>
-                      <Text style={styles.lineRfc}>Colonia Ejidal. 27446.</Text>
-                      <Text style={styles.lineRfc}>Matamoros, Coahuila. México.</Text>
-                    </div>
-                </View>
-               
-
-                <View style={styles.section}>
-                  <Text style={styles.folio}> Folio: {folio}</Text>
-                  <div style={styles.flex}>
-                    <Text style={styles.nombre}> Recibe: {nombre}</Text>
-                    <Text style={styles.fecha}> Fecha: {fecha}</Text>
-                  </div>
-                  <div > 
-                    <div style={{width: '58%', borderBottom:'1px', borderBottomColor: '#000000', marginLeft:'45'}}></div>
-                    <div style={{width: '21%', borderBottom:'1px', borderBottomColor: '#000000', marginLeft:'auto', marginRight:'5'}}></div>
-                  </div>
-                </View>
-                <Table items={cartItems} style={styles.table}/>
-                <Text style={{marginLeft: 'auto', marginRight: 50, fontWeight: 'bold', fontFamily: 'Roboto', fontSize: 14,}}> Total : $ {only_total + '.' } 
-                { only_decimal ?
-                <Text style={{marginLeft: 'auto', marginRight: 50, marginTop: 0, fontFamily: 'Roboto', fontSize: 10, verticalAlign: 'center'}}>{only_decimal}</Text>
-                  : <></>
-                }
-                </Text>
-                <div style={{margin: 20, fontSize: 10}}>
-                  <Text style={styles.notas}> Notas: {notas} </Text>
-                </div>
-                <div style={styles.shadow}>
-                  <Text style={{color: '#5f5f5f'}}>En caso de requerir Factura por favor enviar sus datos (Nombre o razón social, RFC, uso CFDI, forma de pago, Regimen fiscal, codigo postal) a través de su compra en Mercadolibre, o al correo: omar_fs.07@hotmail.com, o whatsapp: 8714147279.
-                  </Text>
-                </div>
-                <Text style={{marginLeft:'auto', marginRight:'auto', marginTop:'25', marginBottom:'25',
-                fontFamily: 'Roboto',  fontStyle: 'italic', fontWeight: 'bold'}}>¡ Gracias por su Preferencia !</Text>
-                <View style={styles.ml_shops_qr}>
-                  <div style={styles.ml_shops}>
-                     <Text style={{fontFamily: 'Roboto'}}>¡ Visita nuestro MercadoShops! </Text>
-                     <Text style={{fontFamily: 'Roboto'}}>Ahora puedes acceder a precios más bajos </Text>
-                     <Text style={{fontFamily: 'Roboto', fontWeight: 'bold'}}>fasutec-ml.mercadoshops.com.mx </Text>
-                     <Text style={{fontFamily: 'Roboto', fontSize: 10, color: '#5f5f5f'}}>El proceso de compra es el mismo que en Mercadolibre </Text>
-                  </div>
-                  <View style={styles.qr_container}>
-                    <Image style={styles.qr} src={'/orders_invoices/images/qr_fasutec.jpg'} alt='imagenqr'/>
-                  </View>
-                </View>
-              </Page>
-
-          </Document>
-        </PDFViewer>
-      </div>
-    );
-
-} );
-export default BasicDocument;
 
 /*
 <PDFViewer style={styles.viewer}>
