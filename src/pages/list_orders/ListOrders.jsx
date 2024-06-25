@@ -39,8 +39,8 @@ export default function ListOrders(){
 					ORDERs
 				</h1>
 				<div className="d-flex justify-content-end align-items-end flex-column col-3 position-absolute" 
-				style={{'width':'100%', 'left':'0', 'rigth':'0', 'paddingRight':'120px' }}>
-					{statusUpdate? 
+					 style={{'width':'100%', 'left':'0', 'rigth':'0', 'paddingRight':'120px' }}>
+					{ statusUpdate? 
 					<h5 className='text-success'> Orders are updated </h5>	
 					:
 					<h5 className='text-danger'> Orders are not updated </h5>

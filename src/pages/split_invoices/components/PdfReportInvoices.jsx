@@ -1,13 +1,4 @@
-import {
-  Document,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFViewer,
-  Image,
-  Font,
-} from "@react-pdf/renderer";
+import { Document, Page, Text, View, StyleSheet, PDFViewer, Image, Font} from "@react-pdf/renderer";
 import React, { forwardRef , Component } from "react";
 import Table from "./TableInvoicesPdf"
 import RobotoLight from '../../../Styles/Fonts/Roboto-Light.ttf'
@@ -16,7 +7,50 @@ import RobotoMediumItalic from '../../../Styles/Fonts/Roboto-MediumItalic.ttf'
 import RobotoLightItalic from '../../../Styles/Fonts/Roboto-LightItalic.ttf'
 
 
-// Create styles
+export const PdfReportInvoices= forwardRef((props, pdfComp) => {
+  
+  //console.log("props recivied in pdfinvoicesComp :", props)
+
+  const  groupsResult  = props.res
+
+  Font.register({ family: 'Roboto', fonts: [
+     { src: RobotoLight, fontWeight: 400}, // font-style: normal, font-weight: normal
+     { src: RobotoMedium, fontWeight: 700 },
+     { src: RobotoLightItalic, fontStyle: 'italic', fontWeight: 400},
+     { src: RobotoMediumItalic, fontStyle: 'italic', fontWeight: 700},
+    ]})
+
+  return (
+    <div ref={pdfComp}>
+      <PDFViewer style={styles.viewer} >
+        {/* Start of the document*/}
+        <Document onLoadSuccess={async (successEvent) => {
+            // tslint:disable-next-line:await-promise
+            const data = await successEvent.getData()
+        }}>
+          {/*render a single page*/}
+          
+            <Page size="A4" style={styles.page}>
+              <View style={styles.log_rfc}>
+                <div style={{flexWrap:'wrap', alignItems: "center", marginLeft: 'auto',  marginRight: 'auto',}}>
+                  <Text style={{marginTop:'20', marginBottom:'12', fontWeight: 'bold', fontFamily: 'Roboto' }} bold='true'>Facturas de gastos - Agrupacion por criterios.</Text>
+                </div>
+              </View>
+             
+              <Table items={groupsResult}/>
+
+            </Page>
+
+        </Document>
+      </PDFViewer>
+    </div>
+  )
+
+})
+
+export default PdfReportInvoices
+
+
 const styles = StyleSheet.create({
   page: {
     backgroundColor: "white",
@@ -116,48 +150,4 @@ const styles = StyleSheet.create({
     marginTop:'10',
   }
 
-
 });
-
-
-export const PdfReportInvoices= forwardRef((props, pdfComp) => {
-  
-  console.log("props recivied in pdfinvoicesComp :", props)
-
-  const  groupsResult  = props.res;
-
-  Font.register({ family: 'Roboto', fonts: [
-     { src: RobotoLight, fontWeight: 400}, // font-style: normal, font-weight: normal
-     { src: RobotoMedium, fontWeight: 700 },
-     { src: RobotoLightItalic, fontStyle: 'italic', fontWeight: 400},
-     { src: RobotoMediumItalic, fontStyle: 'italic', fontWeight: 700},
-    ]});
-
-  return (
-    <div ref={pdfComp}>
-      <PDFViewer style={styles.viewer} >
-        {/* Start of the document*/}
-        <Document onLoadSuccess={async (successEvent) => {
-            // tslint:disable-next-line:await-promise
-            const data = await successEvent.getData();
-        }}>
-          {/*render a single page*/}
-
-            <Page size="A4" style={styles.page}>
-              <View style={styles.log_rfc}>
-                <div style={{flexWrap:'wrap', alignItems: "center", marginLeft: 'auto',  marginRight: 'auto',}}>
-                  <Text style={{marginTop:'20', marginBottom:'12', fontWeight: 'bold', fontFamily: 'Roboto' }} bold='true'><i>Facturas de gastos - Agrupacion por criterios.</i></Text>
-                </div>
-              </View>
-             
-              <Table items={groupsResult}/>
-
-            </Page>
-
-        </Document>
-      </PDFViewer>
-    </div>
-  );
-
-} );
-export default PdfReportInvoices;

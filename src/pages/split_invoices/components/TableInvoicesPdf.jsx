@@ -2,6 +2,60 @@ import React, { Component, Fragment, useContext, useState, useEffect} from "reac
 import { Text, View, StyleSheet, PDFViewer } from "@react-pdf/renderer";
 
 
+export default function Table(itemsRes){
+  const [groups, setGroups] = useState([]) 
+  
+  useEffect(()=>{
+    setGroups( () => itemsRes.items )
+  })
+
+  return (
+    <Fragment>
+    <View style={styles.tableContainer}>
+    {groups.map((group, i ) => {
+      const name = group.group_name;
+      return(
+        <View>
+          <View style={styles.rowTitle}>
+            <Text>GROUP NAME: </Text>
+            <Text>{name}</Text>
+          </View>
+
+          {/*<TableHeader />*/}
+          <View style={styles.rowHead}>
+            <Text style={styles.row1Head}>RFC</Text>
+            <Text style={styles.row2Head}>Razon social</Text>
+            <Text style={styles.row3Head}>Subtotal</Text>
+            <Text style={styles.row4Head}>IVA</Text>
+            <Text style={styles.row5Head}>Total</Text>
+          </View>
+          {group.invoices.map((invoice, i) => {
+            return (
+              <View style={styles.row} key={Math.floor(Math.random() * 100 * i).toString()}>
+                <Text style={styles.row1}>{invoice['cfdi:Emisor'][0].attributes.Rfc}</Text>
+                <Text style={styles.row2}>{invoice['cfdi:Emisor'][0].attributes.Nombre}</Text>
+                <Text style={styles.row3}>{invoice['attributes'].SubTotal}</Text>
+                <Text style={styles.row4}>{ Math.round( (invoice['attributes'].Total - invoice['attributes'].SubTotal) *100)/100}</Text>
+                <Text style={styles.row5}>{invoice['attributes'].Total}</Text>
+              </View>
+            )})
+          }
+          <View style={styles.rowTotal} key={i}>
+            <Text>Totales: </Text>
+            <Text style={styles.row3}>{group.subtotal}</Text>
+            <Text style={styles.row4}>{group.iva}</Text>
+            <Text style={styles.row5}>{group.total}</Text>
+          </View>
+        </View>
+      )
+    })
+    }
+    </View>
+    </Fragment>
+  )
+}
+
+
 const styles = StyleSheet.create({
 
   tableContainer: {
@@ -51,7 +105,7 @@ const styles = StyleSheet.create({
     width: "40%",
   },
   row1Head: {
-    width: '20%',
+    width: '15%',
     paddingTop:2,
     paddingBottom: 2,
     paddingLeft: 5, 
@@ -59,7 +113,7 @@ const styles = StyleSheet.create({
     borderRight: '1px solid #808080',
   },
   row2Head: {
-    width: '30%',
+    width: '35%',
     textAlign: 'center', 
     borderRight: '1px solid #808080',   
     paddingTop:2,
@@ -91,7 +145,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   row1: {
-    width: '20%',
+    width: '15%',
     fontWeight: 'bold',
     borderLeft: '1px solid #808080',
     borderRight: '1px solid #808080',
@@ -100,7 +154,7 @@ const styles = StyleSheet.create({
     paddingRight: 5,  
   },
   row2: {
-    width: '30%',
+    width: '35%',
     textAlign: 'center',
     borderRight: '1px solid #808080',
     borderBottom: '1px solid #808080',
@@ -129,61 +183,3 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
 });
-
-
-export default function Table(itemsRes){
-  const [groups, setGroups] = useState([]) 
-  
-  useEffect(()=>{
-    setGroups(() => {
-      console.log("INFO A TABULAR")
-      console.log(itemsRes.items)
-      return itemsRes.items
-      
-  })});
-
-  return (
-    <Fragment>
-    <View style={styles.tableContainer}>
-    {groups.map((group, i ) => {
-      const name = group.group_name;
-      return(
-        <View>
-          <View style={styles.rowTitle}>
-            <Text>GROUP NAME: </Text>
-            <Text>{name}</Text>
-          </View>
-
-          {/*<TableHeader />*/}
-          <View style={styles.rowHead}>
-            <Text style={styles.row1Head}>RFC</Text>
-            <Text style={styles.row2Head}>Razon social</Text>
-            <Text style={styles.row3Head}>Subtotal</Text>
-            <Text style={styles.row4Head}>IVA</Text>
-            <Text style={styles.row5Head}>Total</Text>
-          </View>
-          {group.invoices.map((invoice, i) => {
-            return (
-              <View style={styles.row} key={i}>
-                <Text style={styles.row1}>{invoice.Rfc}</Text>
-                <Text style={styles.row2}>{invoice.razon}</Text>
-                <Text style={styles.row3}>{invoice.subtotal}</Text>
-                <Text style={styles.row4}>{invoice.iva}</Text>
-                <Text style={styles.row5}>{invoice.total}</Text>
-              </View>
-            )})
-          }
-          <View style={styles.rowTotal} key={i}>
-            <Text>Totales: </Text>
-            <Text style={styles.row3}>{group.subtotal}</Text>
-            <Text style={styles.row4}>{group.iva}</Text>
-            <Text style={styles.row5}>{group.total}</Text>
-          </View>
-        </View>
-      )
-    })
-    }
-    </View>
-    </Fragment>
-  )
-}

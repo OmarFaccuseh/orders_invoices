@@ -28,7 +28,7 @@ export default function TableOrders(props){
 			const {order_id , product, subtotal, customer, qty, status} = orden;
 			//console.log('STATTT '+ JSON.stringify(orders));
 			return(
-			<tr  className='col-12 row gx-0'>
+			<tr  key={Math.floor(Math.random() * 100 * index).toString()} className='col-12 row gx-0'>
 				<td className='col-2' style={{"width": "10%"}}>
 				<span name="status" type="text" value={status} style={{"width": "10%"}}> {status} </span>
 				</td>
