@@ -19,7 +19,7 @@ export default function ListOrders(){
 		setStatusUpdate(false)
 		axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 		axios
-		.get("https://django-sales.onrender.com//ordenes/orders/", {mode: "no-cors"})  //.get("http://127.0.0.1:8000/api/orders/", {mode: "no-cors"})
+		.get("https://django-sales.onrender.com/ordenes/orders/", {mode: "no-cors"})  //.get("http://127.0.0.1:8000/api/orders/", {mode: "no-cors"})
 		.then((res) => {
 			setStatusUpdate(res.data.status=="OK" ? true : false) 
 			setLastCheckupdate(new Date().toLocaleString('es-MX'));
