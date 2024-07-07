@@ -20,7 +20,7 @@ export default function OrderDetail() {
   useEffect(()=>{
     axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
     axios
-    .get("https://web-production-03ae.up.railway.app/ordenes/order_detail/" + order_id + "/", 
+    .get("https://django-sales.onrender.com//ordenes/order_detail/" + order_id + "/", 
       {mode: "cors"},
     )
     .then((res) => {
